@@ -1,0 +1,16 @@
+Transect,Site,Lat,Lon,Depth
+east,STX_east_1,17.76237,-64.5976,1 m
+east,STX_east_5,17.76271,-64.59734,5 m
+east,STX_east_15,17.82805,-64.46711,15 m
+east,STX_east_25,17.82871,-64.46705,25 m
+north,STX_north_5,17.78408,-64.76148,5 m
+north,STX_north_15,17.78532,-64.75953,15 m
+north,STX_north_25,17.78532,-64.75953,25 m
+south,STX_south_1,17.71238,-64.65305,1 m
+south,STX_south_5,17.71097,-64.65221,5 m
+south,STX_south_15,17.70121,-64.64793,15 m
+south,STX_south_25,17.69385,-64.64337,25 m
+west,STX_west_1,17.74824,-64.89392,1 m
+west,STX_west_5,17.7437,-64.89576,5 m
+west,STX_west_15,17.7338,-64.89639,15 m
+west,STX_west_25,17.73363,-64.89693,25 m

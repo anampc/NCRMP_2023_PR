@@ -1,0 +1,25 @@
+Transect,Location,Lat,Lon,actualDepth,binDepth
+North,Arecibo,18.47799,-66.71783,2.4,1
+North,Arecibo,18.47965,-66.72098,6.2,5
+North,Arecibo,18.48227,-66.72124,19.9,15
+North,Arecibo,18.48448,-66.72178,30.7,25
+South,Jobos Bay,17.9122,-66.23076,1.9,1
+South,Jobos Bay,17.91174,-66.231,7,5
+South,Jobos Bay,17.91047,-66.23161,19.8,15
+South,Jobos Bay,17.91036,-66.23158,25.6,25
+South,La Parguera,17.95397,-67.050667,1,1
+South,La Parguera,17.95377,-67.0507,5,5
+South,La Parguera,17.95355,-67.05065,15,15
+South,La Parguera,17.88518,-67.016017,25,25
+West,Ricon,18.34375,-67.26026,2,1
+West,Ricon,18.34291,-67.26076,8.1,5
+West,Ricon,18.34435,-67.269233,20.2,15
+West,Ricon,18.34432,-67.269183,29.6,25
+East,Culebra,18.33124,-65.33295,2,1
+East,Culebra,18.33112,-65.33331,8,5
+East,Culebra,18.33066,-65.33373,19,15
+East,Culebra,18.27763,-65.252,30,25
+East,Fajardo,18.33773,-65.56586,2,1
+East,Fajardo,18.33738,-65.56527,7,5
+East,Fajardo,18.33696,-65.56462,20,15
+East,Fajardo,18.33677,-65.56458,30,25

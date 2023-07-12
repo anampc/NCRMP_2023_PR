@@ -122,7 +122,7 @@ STR_all <-
 STR_all <- STR_all %>%
       mutate_at("filename", str_replace, "Data/STRs/PR_", "")
 
-colmn<-c("Transect", "Depth", "SN")
+colmn<-c("Transect", "Depth", "SN", "Tag", "Location")
 STR_all <-
   tidyr::separate(
     data = STR_all,
@@ -132,20 +132,30 @@ STR_all <-
     remove = TRUE
   )
 
-
-## Formatting
-#STR_all$Depth[STR_all$Depth=="06m"]<-"05m"
-#STR_all$Depth[STR_all$Depth=="01m"]<-"1m"
-#STR_all$Depth[STR_all$Depth=="05m"]<-"5m"
-#STR_all$Depth<-factor(STR_all$Depth, 
-#                levels = c("1m", "5m", "15m","25m"))
-summary(STR_all$Depth)
-
-
 STR_all$Transect[STR_all$Transect=="east"]<-"East"
 STR_all$Transect[STR_all$Transect=="west"]<-"West"
 STR_all$Transect[STR_all$Transect=="north"]<-"North"
 STR_all$Transect[STR_all$Transect=="south"]<-"South"
+#STR_all_2$Site<-paste(STR_all$Transect, STR_all$Site, sep="_")
+
+## Formatting
+
+STR_all$Depth[STR_all$Depth=="01m"]<-"1m"
+STR_all$Depth[STR_all$Depth=="02m"]<-"1m"
+STR_all$Depth[STR_all$Depth=="05m"]<-"5m"
+STR_all$Depth[STR_all$Depth=="06m"]<-"5m"
+STR_all$Depth[STR_all$Depth=="07m"]<-"5m"
+STR_all$Depth[STR_all$Depth=="08m"]<-"5m"
+STR_all$Depth[STR_all$Depth=="20m"]<-"15m"
+STR_all$Depth[STR_all$Depth=="19m"]<-"15m"
+STR_all$Depth[STR_all$Depth=="25m"]<-"25m"
+STR_all$Depth[STR_all$Depth=="26m"]<-"25m"
+STR_all$Depth[STR_all$Depth=="30m"]<-"25m"
+STR_all$Depth[STR_all$Depth=="31m"]<-"25m"
+
+STR_all$Depth<-factor(STR_all$Depth, 
+                levels = c("1m", "5m", "15m","25m"))
+summary(STR_all$Depth)
 
 STR_all$Transect<-factor(STR_all$Transect, 
                 levels = c("North", "East",
@@ -156,7 +166,7 @@ summary(STR_all$Transect)
 * Subsurface **temperature** recorders (STRs) were recovered and redeployed at all 4 transects, each one composed by 3-4 depths (Fig. 1). Overall,  more than 4 million temperature observations were collected:
   
 ```{r Temp observations}
-Cases_Loc_depth<-STR_all %>% count(Depth, Transect,
+Cases_Loc_depth<-STR_all %>% count(Depth, Location,
                                   sort = FALSE)
 Cases_Loc_depth<-as.data.frame(Cases_Loc_depth %>%
                    pivot_wider(names_from = Depth,
@@ -269,14 +279,20 @@ light_count
 ```{r mapInfo, include=FALSE, fig.align='center'}
 # Map information
     # Add info from the sampling stations
-    stations <- read.csv("Data/STXStations.csv", header = T)
+    stations <- read.csv("Data/PR_Stations.csv", header = T)
     #head(stations)
     
-    stations$Site<-as.character(stations$Site)
-    stations$Depth<-as.character(stations$Depth)
+    stations$Location<-as.character(stations$Location)
+    stations$Depth<-paste(as.character(stations$binDepth),"m")
     
     #stations$Site<-factor(stations$Site, levels = c(""))
-    stations$Depth<-ordered(stations$Depth, levels = c("0 m", "1 m", "3m", "5 m", "8m", "15 m","23m", "25 m"))
+    stations$Depth<-ordered(stations$Depth, 
+                            levels = c("1 m", "5 m", "15 m", "25 m"))
+    
+    stations$Size[stations$binDepth==1]<-5
+    stations$Size[stations$binDepth==5]<-4
+    stations$Size[stations$binDepth==15]<-3
+    stations$Size[stations$binDepth==25]<-2
     
     #summary(stations)
     kable(head(stations[, -6], format = "html"))
@@ -298,14 +314,14 @@ light_count
 # Noth arrow
   #North <- "Data/North-Arrow.png"
   
-  myicon <- makeIcon( iconUrl = "Data/North-Arrow.png", 
-                    iconWidth=30,
-                    iconHeight=30)
+  # myicon <- makeIcon( iconUrl = "Data/North-Arrow.png", 
+  #                   iconWidth=30,
+  #                   iconHeight=30)
 
 ```
 
-```{r makeAmap, echo=FALSE, fig.width = 10, fig.height = 4, fig.align='center'}
-map<-leaflet(stations, width = '700px') %>% 
+```{r makeAmap, echo=FALSE, fig.width = 9, fig.height = 3.5, fig.align='center'}
+map<-leaflet(stations, width = '800px') %>% 
   addTiles() %>%
   addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   
@@ -314,72 +330,99 @@ map<-leaflet(stations, width = '700px') %>%
             values = ~Depth, opacity = 1) %>%
   addScaleBar(position = "topright") %>%
 
-  fitBounds(lng1=-64.9, lat=17.85, lng2=-64.4, lat2=17.6)%>%
-
-# Sub_regions
-     addRectangles(
-      lng1=-64.53, lat1=17.82,
-      lng2=-64.53, lat2=17.82,
-      opacity = 1,
-      color = "gray",
-      #color = "#F8766D",
-      weight=2,
-      fillColor = "transparent",
-      label = "East",
-      labelOptions = labelOptions(
-                       noHide = T, direction = "bottom",
-                       offset = c(0, 0),
-                       textOnly = F))  %>%
-    addRectangles(
-      lng1=-64.76, lat1=17.78,
-      lng2=-64.76, lat2=17.78,
-      opacity = 1,
-      color = "black",
-      weight=2,
-      fillColor = "transparent",
-      label = "North",
-      labelOptions = labelOptions(
-
-                       noHide = T, direction = "top",
-                       offset = c(0, -20),
-                       textOnly = F))  %>%
-    addRectangles(
-     lng1=-64.90, lat1=17.73,
-      lng2=-64.9, lat2=17.73,
-      opacity = 1,
-      color = "black",
-      weight=2,
-      fillColor = "transparent",
-      label = "West",
-      labelOptions = labelOptions(
-                       noHide = T, direction = "top",
-                       offset = c(0, -35),
-
-                       textOnly = F)) %>%
-    addRectangles(
-    lng1=-64.65, lat1=17.71,
-      lng2=-64.65, lat2=17.71,
-      opacity = 1,
-      color = "black",
-      weight=2,
-      fillColor = "transparent",
-      label = "South",
-      labelOptions = labelOptions(
-                        noHide = T, direction = "bottom",
-                        offset = c(0, 30),
-                        textOnly = F)) %>%
-addCircleMarkers(lng = ~Lon, lat = ~Lat, 
+  fitBounds(lng1=-67.35, lat=18.2, lng2=-65.2, lat2=18.1)%>%
+  
+  addCircleMarkers(lng = ~Lon, lat = ~Lat, 
                    stroke = F, 
-                   radius = ~Size, 
+                   radius = ~Size*2, 
                    fillOpacity = 1,
                    color = ~pal.gen(Depth),
                    label = ~Depth,
                    labelOptions = labelOptions(
                      noHide = F,
-
                      textOnly = TRUE,
                      style = list(
-        "color" = "black")))
+        "color" = "black"))) %>%
+
+# Sub_regions
+     addRectangles(
+      lng1=-66.71783, lat1=18.53,
+      lng2=-66.71783, lat2=18.53,
+      opacity = 1,
+      color = "gray",
+      #color = "#F8766D",
+      weight=2,
+      fillColor = "transparent",
+      label = "Arecibo",
+      labelOptions = labelOptions(
+                       noHide = T, direction = "top",
+                       offset = c(0, 0),
+                       textOnly = F)) %>%
+    addRectangles(
+          lng1=-66.23, lat1=17.85,
+          lng2=-66.23, lat2=17.85,
+          opacity = 1,
+          color = "gray",
+          #color = "#F8766D",
+          weight=2,
+          fillColor = "transparent",
+          label = "Jobos Bay",
+          labelOptions = labelOptions(
+                           noHide = T, direction = "bottom",
+                           offset = c(0, 0),
+                           textOnly = F)) %>%
+    addRectangles(
+          lng1=-67.05067, lat1=17.85,
+          lng2=-67.05067, lat2=17.85,
+          opacity = 1,
+          color = "gray",
+          #color = "#F8766D",
+          weight=2,
+          fillColor = "transparent",
+          label = "La Parguera",
+          labelOptions = labelOptions(
+                           noHide = T, direction = "bottom",
+                           offset = c(0, 0),
+                           textOnly = F))%>%
+    addRectangles(
+          lng1=-67.27, lat1=18.28,
+          lng2=-67.27, lat2=18.28,
+          opacity = 1,
+          color = "gray",
+          #color = "#F8766D",
+          weight=2,
+          fillColor = "transparent",
+          label = "Ricon",
+          labelOptions = labelOptions(
+                           noHide = T, direction = "bottom",
+                           offset = c(0, 0),
+                           textOnly = F))%>%
+    addRectangles(
+          lng1=-65.32, lat1=18.28,
+          lng2=-65.32, lat2=18.28,
+          opacity = 1,
+          color = "gray",
+          #color = "#F8766D",
+          weight=2,
+          fillColor = "transparent",
+          label = "Culebra",
+          labelOptions = labelOptions(
+                           noHide = T, direction = "bottom",
+                           offset = c(0, 0),
+                           textOnly = F))%>%
+    addRectangles(
+          lng1=-65.56, lat1=18.39,
+          lng2=-65.56, lat2=18.39,
+          opacity = 1,
+          color = "gray",
+          #color = "#F8766D",
+          weight=2,
+          fillColor = "transparent",
+          label = "Fajardo",
+          labelOptions = labelOptions(
+                           noHide = T, direction = "top",
+                           offset = c(0, 0),
+                           textOnly = F))
 map  
 
 # addControl(map, position="topright", 
@@ -388,7 +431,7 @@ map
   
 ```
 
-<font size="2"> **Figure 1:** Study sites and depths in St. Croix, USVI </font>
+<font size="2"> **Figure 1:** Study sites and depths in Puerto Rico. </font>
 
 -----
 
@@ -403,18 +446,22 @@ STR_all<-STR_all[ toDelete ,]
 
 toDelete <- seq(1, nrow(STR_all), 2)
 STR_all<-STR_all[ toDelete ,]
+
+toDelete <- seq(1, nrow(STR_all), 2)
+STR_all<-STR_all[ toDelete ,]
 ```
 
 ```{r Tempvariables, include=FALSE}
 # 3. Define limits for temperature and time (if we want to follow Mike's to automate)
-  globalMinDate <- min(STR_all$UTCDateTime)
+  #globalMinDate <- min(STR_all$UTCDateTime)
+  globalMinDate <-as.POSIXct("2017-06-16 14:15:00", tz= "UTC")
   globalMinTemp <- min(STR_all$Temperature)
   globalMaxDate <- max(STR_all$UTCDateTime)
   globalMaxTemp <- max(STR_all$Temperature)
 
 # 4. Define breaks in the x axis
   if ((globalMaxDate-globalMinDate) > 365.25) {
-    xWidth <- "6 months"
+    xWidth <- "12 months"
   } else {
     xWidth <- "2 months"
   }
@@ -422,12 +469,12 @@ STR_all<-STR_all[ toDelete ,]
 ```
 
 
-```{r plot STR temperature, echo=FALSE, fig.width = 9.5, fig.height = 4}
+```{r plot STRs, echo=FALSE, fig.width = 9.5, fig.height = 4}
 
 plot1<-ggplot(data = STR_all) +
-      geom_line(aes(x = ymd_hms(UTCDateTime), 
+      geom_point(aes(x = ymd_hms(UTCDateTime), 
                     y = Temperature, colour=Depth),
-                size=0.3) +
+                size=0.03) +
   
   theme_bw() +
   theme(#axis.title.x = element_blank(),
@@ -440,10 +487,11 @@ plot1<-ggplot(data = STR_all) +
         #legend.box.background = element_rect(colour = "black")
         ) +
   #scale_color_brewer(palette="Blues")+
-  #scale_color_manual(values=c("#DEEBF7", "#9ECAE1", "#4292C6","#084594"))+
+  scale_color_manual(
+    values=c("#DEEBF7", "#9ECAE1", "#4292C6","#084594"))+
 
   scale_x_datetime(breaks = breaks_width(xWidth),
-                   labels = date_format("%m/%Y"),
+                   labels = date_format("%m/%y"),
                    limits = c(globalMinDate, globalMaxDate),
                    name="Date") +
   scale_y_continuous(limits = c(globalMinTemp, globalMaxTemp+1.5),
@@ -452,7 +500,7 @@ plot1<-ggplot(data = STR_all) +
                      breaks = seq(0,50,2.5)) +
   guides(colour = guide_legend(override.aes = list(size = 8)))+
   theme(legend.key=element_rect(fill=NA)) +
-  facet_grid(Transect~.)
+  facet_grid(Location~.)
 #plot1
 
 box1 <- ggplot(data = STR_all) +
@@ -462,13 +510,14 @@ box1 <- ggplot(data = STR_all) +
              axis.text.y = element_blank(),
              #axis.title.x = element_blank(),
              axis.title.y = element_blank(),
-             legend.position = "none")+
+             legend.position = "top")+
       
   scale_y_continuous(limits = c(globalMinTemp, globalMaxTemp+1.5),
                      breaks = seq(0,50,2.5))+
   #scale_fill_brewer(palette="Blues")+
-  #scale_fill_manual(values=c("#DEEBF7", "#9ECAE1", "#4292C6","#084594"))+
-  facet_grid(Transect~.)
+  scale_fill_manual(
+    values=c("#DEEBF7", "#9ECAE1", "#4292C6","#084594"))+
+  facet_grid(Location~.)
 #box1
 
 Figure2_1 <- ggarrange(plot1, box1, widths = c(8/10, 2/10))
@@ -479,7 +528,7 @@ Figure2_1 <- ggarrange(plot1, box1, widths = c(8/10, 2/10))
 Figure2_1
 ```
 
-<font size="2"> **Figure 2:** Temperature conditions at four transects in St. Croix (east, west, north and south) representing a depth gradient (1m, 5m, 15m and 25m). Data were collected from September 2019 to September 2022. However, STR from north station - 25m stopped recording earlier on February 2022 and STRs from south station - 1m on November 2011. </font>
+<font size="2"> **Figure 2:** Temperature conditions at six locations in Puerto Rico (XX, XX, XX, XX, XX, XX) representing a depth gradient (1m, 5m, 15m and 25m). Data were collected from XX 2017 to September XX However, EXPLAIN ALL THE GAPS? THERE ARE SO MANY IN THIS ONE!. </font>
  
 ```{r, echo = F, include=F}
 #Temp.Depth <- plyr::ddply (str_all, .(Depth), summarise,
@@ -494,8 +543,18 @@ head(STR_all)
 STR_all$MonthYear<-format(STR_all$UTCDateTime, format="%Y-%m")
 STR_all$Month<-format(STR_all$UTCDateTime, format="%m")
 
+STR_all_summary1 <- STR_all %>%
+  group_by(Month) %>%
+  summarise(
+    MeanT = mean(Temperature, na.rm = T),
+    MinT = min(Temperature, na.rm = T),
+    MaxT = max(Temperature, na.rm = T)
+  ) %>%
+  arrange(Month)
+STR_all_summary1
+
 STR_all_summary <- STR_all %>%
-  group_by(MonthYear, Depth, Transect) %>%
+  group_by(MonthYear, Depth, Location) %>%
   summarise(
     MeanT = mean(Temperature, na.rm = T),
     MinT = min(Temperature, na.rm = T),
@@ -504,24 +563,24 @@ STR_all_summary <- STR_all %>%
   arrange(MonthYear)
 STR_all_summary
 
-STR_all_summary <- STR_all %>%
-  group_by(Depth, Transect) %>%
+STR_all_summary2 <- STR_all %>%
+  group_by(Depth, Location) %>%
   summarise(
     MinD = min(UTCDateTime, na.rm = T),
     MaxD = max(UTCDateTime, na.rm = T)
   ) %>%
-  arrange(Transect)
-STR_all_summary
+  arrange(Location)
+STR_all_summary2
 
 ```
 
-Temperature values were similar among the transects and depths depths with the lowest temperatures generally occurring in March (mean: 26.56$^\circ$C, min: 25.64$^\circ$C, max: 28.27$^\circ$C) and the the highest temperatures in September (mean: 29.68$^\circ$C, min: 27.22$^\circ$C, max: 32.11$^\circ$C). The south 1m station presented the highest temperature variability and the maximum temperature values recorded in October 2021 (32.16$^\circ$C) and September 2020 (32.11$^\circ$C) (Fig. 2).
+Mean temperature values were similar among the locations and depths. The lowest temperatures generally occurred in February (mean: 26.5$^\circ$C, min: 24.7$^\circ$C, max: 28.5$^\circ$C) and the highest temperatures in September (mean: 29.4$^\circ$C, min: 25.4$^\circ$C, max: 32.2$^\circ$C).
 
 -----
 
 #### Diurnal Suite Deployment
 
-At the North 15m site, Salt River Bay, additional instruments were deployed for a 72-hour diurnal suite that monitored pH, temperature, light and current speed (Fig. 3). The SeaFET pH logger, EcoPAR and Tiltmeter collected measurements at 15-minute intervals.
+At the XX site, XXX, additional instruments were deployed for a 72-hour diurnal suite that monitored pH, temperature, light and current speed (Fig. 3). The SeaFET pH logger, EcoPAR and Tiltmeter collected measurements at 15-minute intervals.
 
 
 ```{r ph and temp combined v3,echo=FALSE, warning=FALSE,fig.width = 9.5, fig.height = 3.5}
@@ -584,7 +643,7 @@ pH_Temp_Plot<-ggplot(data = pH) +
         legend.key=element_rect(fill=NA), axis.title.y.right = element_text(vjust = .75))+
   guides(colour = guide_legend(override.aes = list(size = 8)))
 
-pH_Temp_Plot
+#pH_Temp_Plot
  
 ```
 
@@ -599,9 +658,11 @@ Light_Current<-ggplot(data = light) +
 
   # Day/Night
  annotate("rect",
-          xmin = seq.POSIXt(as.POSIXct('2022-09-05 18:29:00', tz='America/Puerto_Rico'),
+          xmin = seq.POSIXt(as.POSIXct('2023-05-21 18:29:00',
+                                       tz='America/Puerto_Rico'),
                          by = "day", length.out = 3),
-          xmax = seq.POSIXt(as.POSIXct('2022-09-06 06:05:00', tz='America/Puerto_Rico'),
+          xmax = seq.POSIXt(as.POSIXct('2023-05-22 06:05:00',
+                                       tz='America/Puerto_Rico'),
                          by = "day", length.out = 3),
           ymin = -Inf, ymax = Inf,
           fill="grey", alpha=0.5) +
@@ -736,7 +797,7 @@ The transect results showed that carbonate budgets have become negative in 2022,
 
 -----
 
-* **Calcification Accretion Units (CAUs)** and **Bioerosion Monitoring Units (BMUs)** were collected and redeployed for the next sampling cycle. CAUs are processed by the Pacific Climate group and the data will be available within a year. BMUs will be dried and cleaned using a hydrogen peroxide solution. These samples will be weighed and scanned using a Macro CT scanner and then compared to their pre-scans to quantify bioerosion. Data will be available in a year. Please reference previous datasets for more information.
+* **Calcification Accretion Units (CAUs)** and **Bioerosion Monitoring Units (BMUs)** were collected and redeployed for the next sampling cycle. CAUs are processed by the Pacific Climate group and the data will be available within a year. BMUs will be dried and cleaned using a hydrogen peroxide solution. These samples will be weighed and scanned using a Macro CT scanner and then compared to their pre-scans to quantify bioerosion. Data will be available in a year. Please reference previous data sets for more information.
 
 ```{r BMUs, echo=FALSE, out.width = '50%', fig.cap="Figure 6: CAU and BMU pair before retreval after being deployed for 3 years. CAUs are 2 parallel PVC plates to quantify settled accretors. BMU is mounted coral skeleton installed at the base of the metal stake and has been encrusted.", fig.align='center'}
 

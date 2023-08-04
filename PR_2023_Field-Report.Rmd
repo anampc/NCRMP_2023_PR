@@ -193,8 +193,8 @@ pH <- read_csv('Data/seafet-sn2114-pr-temporal-suite.csv',col_types = cols()) %>
            Temperature = `pH Temperature (Celsius)`) %>%
     mutate(DateTime = parse_date_time(DateTime, '%m/%d/%y %H:%M')) %>%
     #manual start/stop time of monitoring
-    filter(DateTime >= as.POSIXct('2023-05-21 12:15:00', tz='UTC') &
-         DateTime <= as.POSIXct('2023-05-23 16:00:00', tz='UTC')) %>%
+    filter(DateTime >= as.POSIXct('2023-05-21 12:30:00', tz='UTC') &
+         DateTime <= as.POSIXct('2023-05-23 15:30:00', tz='UTC')) %>%
     mutate(DateTime = with_tz(DateTime, 'America/Puerto_Rico'))
 
 ```
@@ -218,8 +218,8 @@ fileAny <- "Data/tilt-sn2102061-puerto-rico-suite.csv"
   colnames(current) <- c("date","ws","wd")
   #manual start/stop time of monitoring
   current$DateTime<-NA
-  current <- subset(current, date >= ymd_hms("2023-05-21 12:00:00") &
-                     date <= ymd_hms("2023-05-23 16:00:00"))
+  current <- subset(current, date >= ymd_hms("2023-05-21 12:30:00") &
+                     date <= ymd_hms("2023-05-23 15:30:00"))
   current$DateTime <- lubridate::with_tz(current$date,
                                          "America/Puerto_Rico")
   
@@ -243,8 +243,8 @@ fileAny <- "Data/tilt-sn2102061-puerto-rico-suite.csv"
                     sd = sd(`PAR (calc)`)) %>%
         select(-interval) %>%
   #manual start/stop time of monitoring
-   filter(DateTime >= as.POSIXct('2023-05-21 08:00:00', tz='America/Puerto_Rico') &
-          DateTime <= as.POSIXct('2023-05-23 12:30:00', tz='America/Puerto_Rico'))
+   filter(DateTime >= as.POSIXct('2023-05-21 08:30:00', tz='America/Puerto_Rico') &
+          DateTime <= as.POSIXct('2023-05-23 11:03:00', tz='America/Puerto_Rico'))
 
 summary(light$DateTime)
 
@@ -276,7 +276,7 @@ light_count
 
 <br>
 
-```{r mapInfo, include=FALSE, fig.align='center'}
+```{r mapInfo, include=FALSE}
 # Map information
     # Add info from the sampling stations
     stations <- read.csv("Data/PR_Stations.csv", header = T)
@@ -320,7 +320,7 @@ light_count
 
 ```
 
-```{r makeAmap, echo=FALSE, fig.width = 9, fig.height = 3.5, fig.align='center'}
+```{r makeAmap, echo=FALSE, fig.width = 9, fig.height = 4, fig.align='center'}
 map<-leaflet(stations, width = '800px') %>% 
   addTiles() %>%
   addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
@@ -594,24 +594,24 @@ At the XX site, XXX, additional instruments were deployed for a 72-hour diurnal 
   # pH$Temp.adj<-(pH$Temperature * scaleFactor_T)
   # summary(pH)
 
-  pH_max <- max(pH$pH)
+  Temp.adj_max <- max(pH$Temp.adj)
   
 # Plot
 pH_Temp_Plot<-ggplot(data = pH) +
   # Day/Night
   annotate("rect",
-          xmin = seq.POSIXt(as.POSIXct('2022-09-05 18:29:00', tz='America/Puerto_Rico'),
-                         by = "day", length.out = 3),
-          xmax = seq.POSIXt(as.POSIXct('2022-09-06 06:05:00', tz='America/Puerto_Rico'),
-                         by = "day", length.out = 3),
+          xmin = seq.POSIXt(as.POSIXct('2023-05-21 18:56:00', tz='America/Puerto_Rico'),
+                         by = "day", length.out = 2),
+          xmax = seq.POSIXt(as.POSIXct('2023-05-22 05:53:00', tz='America/Puerto_Rico'),
+                         by = "day", length.out = 2),
           ymin = -Inf, ymax = Inf,
           fill="grey", alpha=0.5) +
   
    annotate("text",
-          label = paste("Sep", 05:07),
-          x = seq.POSIXt(as.POSIXct('2022-09-05 12:00:00', tz='America/Puerto_Rico'),
+          label = paste("May", 21:23),
+          x = seq.POSIXt(as.POSIXct('2023-05-21 09:00:00', tz='America/Puerto_Rico'),
                          by = "day", length.out = 3),
-          y = pH_max-0.001)+ 
+          y = Temp.adj_max-0.00001)+ 
   # Data
   geom_line(aes(x=DateTime, y=Temp.adj, color = "Temperature"),
             size=0.8) +
@@ -657,13 +657,11 @@ current$ws.adj<-(current$ws * scaleFactor)
 Light_Current<-ggplot(data = light) +
 
   # Day/Night
- annotate("rect",
-          xmin = seq.POSIXt(as.POSIXct('2023-05-21 18:29:00',
-                                       tz='America/Puerto_Rico'),
-                         by = "day", length.out = 3),
-          xmax = seq.POSIXt(as.POSIXct('2023-05-22 06:05:00',
-                                       tz='America/Puerto_Rico'),
-                         by = "day", length.out = 3),
+annotate("rect",
+          xmin = seq.POSIXt(as.POSIXct('2023-05-21 18:56:00', tz='America/Puerto_Rico'),
+                         by = "day", length.out = 2),
+          xmax = seq.POSIXt(as.POSIXct('2023-05-22 05:53:00', tz='America/Puerto_Rico'),
+                         by = "day", length.out = 2),
           ymin = -Inf, ymax = Inf,
           fill="grey", alpha=0.5) +
   
@@ -675,7 +673,7 @@ Light_Current<-ggplot(data = light) +
   scale_color_manual(values=c("navyblue", "goldenrod1"))+
   
   # Axes
-  scale_y_continuous(limits = c(0,430), 
+  scale_y_continuous(limits = c(0,590), 
                      name=expression(paste("PAR (",mu,"mol photons m"^-2,"s"^-1,")")),
                      sec.axis = sec_axis(~./scaleFactor, 
                                 name="Current Speed (cm/s)",
@@ -687,7 +685,7 @@ Light_Current<-ggplot(data = light) +
                    labels = date_format("%m/%d\n%H:%M",
                                         tz="America/Puerto_Rico")) +
 
-  coord_cartesian(ylim = c(0,430),
+  coord_cartesian(ylim = c(0,590),
                   xlim = c(min(light$DateTime),max(light$DateTime)),
                   clip = 'off',
                   expand = T) +
@@ -746,7 +744,11 @@ At Salt River Bay, six transects were established and surveyed in 2019 to obtain
 
 ```{r, Carbonate_B_plot, echo=FALSE, warning=FALSE, fig.width = 7.5, fig.height = 3.5}
 
-CB.data<- read.csv("Data/STX_2022_CB.csv")
+CB.data<- read.csv("Data/PR_BC.csv")
+CB.data$Macroalgae.cover<-NULL
+CB.data$Turf.cover<-NULL
+CB.data$Coral.cover<-NULL
+CB.data$CCA.cover<-NULL
 
 CB.data.A<-melt(CB.data,id.vars=c(8:9))
 CB.data.A$Year<-as.character(CB.data.A$Year)
@@ -756,7 +758,7 @@ CBA.data<-subset(CB.data.A,variable=="Carbonate budgets")
 CB_A_plot<-ggplot(CBA.data, aes(Year, value, fill=Year))+
   geom_abline(slope = 0, intercept = 0, colour="gray")+
   geom_boxplot(alpha=0.5,width=0.4)+
-  scale_fill_manual(values=c( "#666699","#336666")) +
+  scale_fill_manual(values=c( "#666699","#336666","#996666")) +
   facet_wrap(~variable)+
   geom_jitter(colour="black",size=1,alpha=0.9,shape=1,width=0.15)+
   theme_bw()+
@@ -776,7 +778,7 @@ mdata$variable <- factor(mdata$variable,
                                     "Macro bioerosion","Micro bioerosion"))
 CB_B_plot<-ggplot(mdata,aes(Year,value,fill=Year))+
   geom_boxplot(alpha=0.5,width=0.5)+
-  scale_fill_manual(values=c( "#666699","#336666")) +
+  scale_fill_manual(values=c( "#666699","#336666", "#996666")) +
   geom_jitter(colour="black",size=1,alpha=0.9,shape=1,width=0.15)+
   facet_wrap(~variable,scales="free",ncol=3) +
   theme_bw()+
@@ -874,4 +876,4 @@ funding
 knitr::include_graphics("Data/Fieldteam.jpg")
 ```
 
-**AOMLs NCRMP Atlantic and Caribbean Climate Team**: I. Enochs, N. Besemer, G. Kolodziej,  A.Boyd, M. Jankulak, A. Palacio-Castro, A. Webb, B. Chomitz
+**AOMLs NCRMP Atlantic and Caribbean Climate Team**: I. Enochs, N. Besemer, G. Kolodziej, A.Boyd, M. Jankulak, A. Palacio-Castro, A. Webb, B. Chomitz

@@ -791,9 +791,9 @@ ggarrange(CB_A_plot, CB_B_plot,
           ncol = 2, nrow = 1, widths = c(1, 2))
 ```
 
-<font size="2">**Figure 5:** Carbonate budgets Salt River Bay in 2019 and 2022 and the processes contributing to calcification and bioerosion.  Carbonate budgets declined in 2022 compared to 2019, mainly due to the reduction in coral production and the increase in urchin erosion. </font>
+<font size="2">**Figure 5:** Carbonate budgets XX in 2015, 2017 and 2023 and the processes contributing to calcification and bioerosion. Carbonate budgets were stable among the years surveyed, with stable coral production and minimum variatons in bioerosion. </font>
 
-The transect results showed that carbonate budgets have become negative in 2022, which implies that this site has shifted to being net erosional over the past 3 years.
+The transect results showed positive carbonate budgets in 2015, 2017 and 2023, which implies that this site supported reef accretion over the past eight years.
 
 -----
 

@@ -71,7 +71,7 @@ National Oceanic Atmospheric Administration</h4>
 <br>
 
 <h5 style="font size=6">
-N. Besemer, A. Palacio, A. Webb, G. Kolodziej, I. Enochs - XX 2023
+N. Besemer, A. Palacio, A. Webb, G. Kolodziej, T.Gill, I. Enochs - XX 2023
 </h5>
 
 ```{r logos, echo=FALSE, fig.align='left', out.width='20%'}
@@ -86,13 +86,13 @@ plot_grid(p1, p2)
 
 ### About this summary brief
 
-The NOAA Atlantic Oceanographic and Meteorological Laboratory (AOML) conducts the long-term National Coral Reef Monitoring Program (NCRMP) to track the status and trends of coral reef ecosystems of the U.S. Atlantic and Caribbean coral reef jurisdictions. This summary brief provides an overview of the most recent survey efforts to St. Croix USVI.
+The NOAA Atlantic Oceanographic and Meteorological Laboratory (AOML) conducts the long-term National Coral Reef Monitoring Program (NCRMP) to track the status and trends of coral reef ecosystems of the U.S. Atlantic and Caribbean coral reef jurisdictions. This summary brief provides an overview of the most recent survey efforts to Puerto Rico.
 
 
 ### Expedition summary
 
-* The NCRMP Atlantic climate monitoring team recently traveled to St. Croix in the US Virgin islands from September 4th to September 9th, 2022
-* 16 different sites were visited by four team members and collaborators completing a total of 45 dives. 
+* The NCRMP Atlantic climate monitoring team recently traveled to Puerto Rico from May 17fh to September 25th, 2023
+* 16 different sites were visited by four team members and collaborators completing a total of 51 dives. 
 * These sites represent temporal‐resolution monitoring with moored instruments at fixed time‐series which are placed on depth gradient to assess how vertical structure affects reef status and trends.
 
 --------
@@ -163,7 +163,7 @@ STR_all$Transect<-factor(STR_all$Transect,
 summary(STR_all$Transect)
 ```
 
-* Subsurface **temperature** recorders (STRs) were recovered and redeployed at all 4 transects, each one composed by 3-4 depths (Fig. 1). Overall,  more than 4 million temperature observations were collected:
+* Subsurface **temperature** recorders (STRs) were recovered and redeployed at all 6 transects, each one composed by 4 depths (Fig. 1). Overall,  more than 4 million temperature observations were collected:
   
 ```{r Temp observations}
 Cases_Loc_depth<-STR_all %>% count(Depth, Location,
@@ -259,19 +259,22 @@ light_count<-paste0("Light = ", nrow(light), " observatons")
 light_count
 ```
 
-
-* At XX, the XX side of Puerto Rico, short term instruments (72h) were deployed to  monitor daily fluctuations in: 
-  - **Current**: 209 observations
-  - **pH**: 208 observations
-  - **Light**: 208 observations
-  - **Carbonate Chemistry**: XX samples collected
-  - **Carbonate budget surveys**: Benthic cover, sponge, urchin and parrotfish surveys completed at XX transects
+**NCRMP Climate fixed sentinel site monitoring
+At La Prguera, 5m site, located in SW Puerto Rico short term instruments (54h) were deployed to  monitor daily fluctuations in: 
+  * **Current**: 209 observations
+  * **pH**: 208 observations
+  * **Light**: 208 observations
+  * **Carbonate Chemistry**: 15 samples collected
+  * **Carbonate budget surveys**: Benthic cover, sponge, urchin and parrotfish surveys completed at 6 transects
 
 <br>
 
-* Additionally, changes in bioerosion and accretion were monitored at all XXm sites by recording:
-  - **Bioerosion**: XX Bioerosion Monitoring Units (BMUs) collected, XX redeployed 
-  - **Calcification**: XX Calcification Accretions Units (CAUs) collected, XX redeployed
+** Habitat persistence**
+Changes in bioerosion and accretion were monitored:
+  * **Carbonate budget surveys**: Benthic cover, sponge, urchin, and parrotfish surveys	completed at six transects
+  * **Bioerosion**: 60 Bioerosion Monitoring Units (BMUs) collected, 60 redeployed 
+  * **Calcification**: 30 Calcification Accretions Units (CAUs) collected, 30 redeployed
+  * **Benthic cover**: 6 landscape mosaics
 
 
 <br>
@@ -435,10 +438,9 @@ map
 
 -----
 
-#### Temperature
+#### Subsurface temperature
 
-Three years of temperature measurements were retrieved and processed from 14 sites (depths). Temperature was measured using SeaBird Electronics Subsurface Temperature Recorders (STR)s that collected data at 5-minute intervals.
-
+The temperatures that marine organizms experience are a function of loccal oceanographic conditions and vary with depth. To monitor subsurface temperature, six transects were established around the island. Each transsect consists of STRs at four depths (q, 5, 15, 25m; Fig.2). Two years of temperature measurments were retreived and processed from the 24 sites. Temperature was measured using SeaBird Electronics Subsurface Temperature Recorders (STR)s that collected data at 5-minute intervals. The COVID - 19 pandemic delayed collection in 2020 and local contractors were hired to swap the instruments as travel was not allowed. Some gaps exsist in the data as not all instruments survived the extended deployment time. The entire record from 2017 to 2023 is shown to aid with comparison. 
 
 ```{r filter Temp, include=FALSE}
 toDelete <- seq(1, nrow(STR_all), 2)
@@ -528,7 +530,7 @@ Figure2_1 <- ggarrange(plot1, box1, widths = c(8/10, 2/10))
 Figure2_1
 ```
 
-<font size="2"> **Figure 2:** Temperature conditions at six locations in Puerto Rico (XX, XX, XX, XX, XX, XX) representing a depth gradient (1m, 5m, 15m and 25m). Data were collected from XX 2017 to September XX However, EXPLAIN ALL THE GAPS? THERE ARE SO MANY IN THIS ONE!. </font>
+<font size="2"> **Figure 2:** Temperature conditions at six locations in Puerto Rico (Rincon, Arecibo, Jobos Bay, La Parguera, Culebra, Fajardo) representing a depth gradient (1m, 5m, 15m and 25m). Data were collected from XX 2017 to September XX However, the COVID 19 pandemic caused a significant delay in collection of these instruments. Contractors were hired to complete the work in 2021 as travel was not allowed. Some instruments survived the entire deployment but others have not. EXPLAIN ALL THE GAPS? THERE ARE SO MANY IN THIS ONE!. </font>
  
 ```{r, echo = F, include=F}
 #Temp.Depth <- plyr::ddply (str_all, .(Depth), summarise,
@@ -574,13 +576,16 @@ STR_all_summary2
 
 ```
 
-Mean temperature values were similar among the locations and depths. The lowest temperatures generally occurred in February (mean: 26.5$^\circ$C, min: 24.7$^\circ$C, max: 28.5$^\circ$C) and the highest temperatures in September (mean: 29.4$^\circ$C, min: 25.4$^\circ$C, max: 32.2$^\circ$C).
+Mean temperature values were similar among the locations and depths. The lowest temperatures generally occurred in February (mean: 26.5$^\circ$C, min: 24.7$^\circ$C, max: 28.5$^\circ$C) and the highest temperatures in September (mean: 29.4$^\circ$C, min: 25.4$^\circ$C, max: 32.2$^\circ$C). explain more gaps and issues here?
 
 -----
 
-#### Diurnal Suite Deployment
+#### Diurnal suite deployment
 
-At the XX site, XXX, additional instruments were deployed for a 72-hour diurnal suite that monitored pH, temperature, light and current speed (Fig. 3). The SeaFET pH logger, EcoPAR and Tiltmeter collected measurements at 15-minute intervals.
+Seawater carbonate chemistry can fluctuate diurnally, due to biological forcing processes	such as	photosynthesis andrespiration, as well as	calcification and dissolution. Tocharacterize	this, discrete	water	samples (Fig. 3) were collected at three-hour intervals (n=15) using SubsurfaceAutomatic Samplers (SAS, www.coral.noaa.gov/accrete/sas).
+
+These samples will be analyzed for Total Alkalinity (TA), Dissolved Inorganic Carbon (DIC), and SpectrophotometricpH (SpecpH), which	will be	used	to	calculate	pCO2	and	aragonite	saturation state	(ΩAragonite).	A	suite	of instrumentswas deployed for a 72-hour period	at the East Bank 20m site. A SeaFET was used to log pH, an EcoPAR	measured Photosynthetically Active Radiation	(PAR), and	a Lowell Tiltmeter measured	current speed	and	direction. Each	collected measurements at 15-minute intervals (Fig. 2).
+
 
 
 ```{r ph and temp combined v3,echo=FALSE, warning=FALSE,fig.width = 9.5, fig.height = 3.5}
@@ -723,11 +728,9 @@ ggdraw(plot_grid(plot_grid(pH_Temp_Plot,
                  ncol = 1, rel_heights=c(1, 0.1)))
 ```
 
-<font size="2">**Figure 3:** LOCATION (N 15m) diurnal suite monitoring from September 5th to 8th. Top panel: pH and temperature from SeaFET. Bottom panel: Photosynthetically Available Radiation (PAR) and current speed from EcoPAR and Tiltmeter. Grey blocks denote night time throughout sequence of the plot. Instruments measured parameters every 15 minutes. </font>
+<font size="2">**Figure 3:** Data	from La Parguera diurnal suite monitoring from May 21st to May 23rd. Top panel: pH and	temperature fromSeaFET. Bottom panel: Photosynthetically	Available	Radiation (PAR)	and current speed from EcoPAR and Tiltmeter. Shading denotes nighttime throughout	sequence of the plot. Instruments measured parameters every 15 minutes. </font>
 
 
-
-As part of the diurnal suite, discrete water samples were collected at three-hour intervals (n=15) using Subsurface Automatic Samplers (SAS). These samples will be analyzed for Total Alkalinity (TA), Dissolved Inorganic Carbon (DIC), and Spectrophotometric pH (SpecpH). Using these metrics we can get the calculated values for pCO2 and aragonite saturation state. For more information on SAS vist https://www.coral.noaa.gov/accrete/sas/
 
 ```{r SASs, echo=FALSE, out.width = '50%', fig.cap="Figure 4: Submered Automated Samplers (SAS) deployed to collect water samples every 3 hours", fig.align='center'}
 
@@ -739,8 +742,7 @@ knitr::include_graphics("Data/SAS.jpg")
 
 #### Habitat persistance
 
-* **Carbonate budgets** ... 
-At Salt River Bay, six transects were established and surveyed in 2019 to obtain carbonate budgets which describe the summation of all processes contributing to calcification and bioerosion on a reef.  This metric is used to determine if a reef is in a state of net accretion; growing or net loss; flattening. We revisited this site and recorded the abundance and cover of all major carbonate producing (coral and CCA) and eroding taxa (urchin, bioeroding sponges and parrotfish) to find out the new carbonate budget status after 3 years. 
+**Carbonate budget** assessnebts use transect-based surveys to quantify the abundance of carbonate producers (e.g., Corals and Crustose coralline algae), and carbonate bioeroders, (e.g., parrotfish and sea urchins). Abundances are multiplied by taxon-specific rates of carbonate alteration to determine if a reef is in a state of net accretion (habitat growth) or net loss (habitat loss) in Fig 5. At La Parguera, six transects were surveys in 2019, 2017 and 2023 to obtain carbonate budgets. WHAT DO WE NOTICE WHEN THE PLOT IS READY
 
 ```{r, Carbonate_B_plot, echo=FALSE, warning=FALSE, fig.width = 7.5, fig.height = 3.5}
 

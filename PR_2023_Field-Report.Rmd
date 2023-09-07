@@ -208,10 +208,6 @@ fileAny <- "Data/tilt-sn2102061-puerto-rico-suite.csv"
   summary(current)
   head(current)
 
-# hardcoded limits for this DRTO file are
-# ymd_hms("2021/06/25 18:30:00") and ymd_hms("2021/06/28 19:45:00")
-# (future enhancement: incorporate Hannah Barkley's dataset trimming code; also, eliminate all the hardcoding below and calculate from data)
-
   # current$date = ymd_hms(paste0(current$Date, current$Time), tz = "UTC")
   current$date = ymd_hms(current$Timestamp.UTC, tz = "UTC")
   current <- current[, c("date","Speed..cm.s.","Heading..degrees.")]
@@ -574,7 +570,7 @@ STR_all_summary2
 
 ```
 
-Mean temperature values were similar among the locations and depths. The lowest temperatures generally occurred in February (mean: 26.5$^\circ$C, min: 24.7$^\circ$C, max: 28.5$^\circ$C) and the highest temperatures in September (mean: 29.4$^\circ$C, min: 25.4$^\circ$C, max: 32.2$^\circ$C). explain more gaps and issues here?
+Mean temperature values were similar among the locations and depths. The lowest temperatures generally occurred in February (mean: 26.5$^\circ$C, min: 24.7$^\circ$C, max: 28.5$^\circ$C) and the highest temperatures in September (mean: 29.4$^\circ$C, min: 25.4$^\circ$C, max: 32.2$^\circ$C).
 
 -----
 

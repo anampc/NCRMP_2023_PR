@@ -92,7 +92,7 @@ The AOML Coral Program tracks the status and trends of coral reef ecosystems of 
 ### Expedition summary
 
 * The NCRMP Atlantic climate monitoring team recently traveled to Puerto Rico from May 17th to May 25th, 2023
-* 16 different sites were visited by three team members and collaborators completing a total of 51 dives. 
+* 22 different sites were visited by three team members and collaborators completing a total of 51 dives. 
 --------
 
 ### Data collection summary
@@ -254,7 +254,7 @@ light_count<-paste0("Light = ", nrow(light), " observatons")
 light_count
 ```
 
-* **NCRMP Climate fixed sentinel site monitoring:** At La Parguera - 5m site, located in SW Puerto Rico, short term instruments (54h) were deployed to  monitor daily fluctuations in:
+**NCRMP Climate fixed sentinel site monitoring:** At La Parguera - 5m site, located in SW Puerto Rico, short term instruments (54h) were deployed to  monitor daily fluctuations in:
 
   * **Current**: 205 observations
   * **pH**: 205 observations
@@ -264,12 +264,11 @@ light_count
 
 <br>
 
-* **Habitat persistence:** Changes in bioerosion and accretion were monitored:
+**Habitat persistence:** Changes in bioerosion and accretion were monitored:
 
   * **Carbonate budget surveys**: Benthic cover, sponge, urchin, and parrotfish surveys	completed at 6 transects
   * **Bioerosion**: 60 Bioerosion Monitoring Units (BMUs) collected, 60 redeployed 
   * **Calcification**: 30 Calcification Accretions Units (CAUs) collected, 30 redeployed
-  * **Benthic cover**: 6 landscape mosaics
 
 
 <br>
@@ -435,7 +434,7 @@ map
 
 ### Subsurface temperature
 
-The temperatures that marine organisms experience are a function of local oceanographic conditions and vary with depth. To monitor subsurface temperature, six transects were established around the island. Each transect consists of STRs at four depths (1, 5, 15, 25m; Fig.2). Two years of temperature measurements were retrieved and processed from the 24 sites. Temperature was measured using SeaBird Electronics Subsurface Temperature Recorders (STR)s that collected data at 5-minute intervals. The COVID - 19 pandemic delayed collection in 2020 and local contractors were hired to swap the instruments as travel was not allowed. Some gaps exist in the data as not all instruments survived the extended deployment time. The entire record from 2017 to 2023 is shown to aid with comparison. 
+The temperatures that marine organisms experience are a function of local oceanographic conditions and vary with depth. To monitor subsurface temperature, six transects were established around the island. Each transect consists of STRs at four depths (1, 5, 15, 25m; Fig.2). Temperature was measured using SeaBird Electronics Subsurface Temperature Recorders (STR)s that collected data at 5-minute intervals. The instruments are usually swapped every 3 years for data collection but the COVID - 19 pandemic delayed field work in 2020. Local contractors were hired to swap the instruments as travel was not allowed and so gaps exist in the data as not all instruments survived the extended deployment time. The entire record from 2017 to 2023 is shown to aid with comparison. 
 
 ```{r filter Temp, include=FALSE}
 toDelete <- seq(1, nrow(STR_all), 2)
@@ -577,9 +576,9 @@ Mean temperature values were similar among the locations and depths. The lowest 
 
 ### Diurnal suite deployment
 
-Seawater carbonate chemistry can fluctuate diurnally, due to biological forcing processes	such as	photosynthesis andrespiration, as well as	calcification and dissolution. Tocharacterize	this, discrete	water	samples (Fig. 3) were collected at three-hour intervals (n=15) using SubsurfaceAutomatic Samplers (SAS, www.coral.noaa.gov/accrete/sas).
+Seawater carbonate chemistry can fluctuate diurnally, due to biological forcing processes	such as	photosynthesis and respiration, as well as	calcification and dissolution. To characterize	this, discrete	water	samples (Fig. 3) were collected at three-hour intervals (n=15) using Subsurface Automatic Samplers (SAS, www.coral.noaa.gov/accrete/sas).
 
-These samples will be analyzed for Total Alkalinity (TA), Dissolved Inorganic Carbon (DIC), and SpectrophotometricpH (SpecpH), which	will be	used	to	calculate	pCO2	and	aragonite	saturation state	(ΩAragonite).	A	suite	of instrumentswas deployed for a 54-hour period	at the La Parguera 5m site. A SeaFET was used to log pH, an EcoPAR	measured Photosynthetically Active Radiation	(PAR), and	a Lowell Tiltmeter measured	current speed	and	direction. Each	collected measurements at 15-minute intervals (Fig. 2).
+These samples will be analyzed for Total Alkalinity (TA), Dissolved Inorganic Carbon (DIC), and SpectrophotometricpH (SpecpH), which	will be	used	to	calculate	pCO2	and	aragonite	saturation state	(ΩAragonite).	A	suite	of instrumentswas deployed for a 54-hour period	at the La Parguera 5m site. A SeaFET was used to log pH, an EcoPAR	measured Photosynthetically Active Radiation (PAR), and	a Lowell Tiltmeter measured	current speed	and	direction. Each	collected measurements at 15-minute intervals (Fig. 3).
 
 ```{r ph and temp combined v3,echo=FALSE, warning=FALSE,fig.width = 9.5, fig.height = 3.5}
 
@@ -724,18 +723,11 @@ ggdraw(plot_grid(plot_grid(pH_Temp_Plot,
 <font size="2">**Figure 3:** Data	from La Parguera diurnal suite monitoring from May 21st to May 23rd. Top panel: pH and	temperature fromSeaFET. Bottom panel: Photosynthetically	Available	Radiation (PAR)	and current speed from EcoPAR and Tiltmeter. Shading denotes nighttime throughout	sequence of the plot. Instruments measured parameters every 15 minutes. </font>
 
 
-
-```{r SASs, echo=FALSE, out.width = '50%', fig.cap="Figure 4: Submered Automated Samplers (SAS) deployed to collect water samples every 3 hours", fig.align='center'}
-
-knitr::include_graphics("Data/SAS.jpg")
-
-```
-
 -----
 
 ### Habitat persistance
 
-**Carbonate budget** assessments use transect-based surveys to quantify the abundance of carbonate producers (e.g., Corals and Crustose coralline algae), and carbonate bioeroders, (e.g., parrotfish and sea urchins). Abundances are multiplied by taxon-specific rates of carbonate alteration to determine if a reef is in a state of net accretion (habitat growth) or net loss (habitat loss) in Fig 5. At La Parguera, six transects were surveys in 2015, 2017 and 2023 to obtain carbonate budgets. These data show stable carbonate production over the monitoring timepoints. The transect results showed positive carbonate budgets in 2015, 2017 and 2023, which implies that this site supported reef accretion over the past eight years. ADD MORE HERE MAYBE CHAT DIP IN MACRO/MICRO BIOEROSION, INCREASE OF CCA, COOL OUTLIERS? 
+**Carbonate budget** assessments use transect-based surveys to quantify the abundance of carbonate producers (e.g., Corals and Crustose coralline algae), and carbonate bioeroders, (e.g., parrotfish and sea urchins). Abundances are multiplied by taxon-specific rates of carbonate alteration to determine if a reef is in a state of net accretion (habitat growth) or net loss (habitat loss; Fig. 4). At La Parguera, six transects were surveys in 2015, 2017 and 2023 to obtain carbonate budgets. These data show stable carbonate production over the monitoring timepoints. The transect results showed positive carbonate budgets in 2015, 2017 and 2023, which implies that this site supported reef accretion over the past eight years. ADD MORE HERE MAYBE CHAT DIP IN MACRO/MICRO BIOEROSION, INCREASE OF CCA, COOL OUTLIERS? 
 
 ```{r, Carbonate_B_plot, echo=FALSE, warning=FALSE, fig.width = 7.5, fig.height = 3.5}
 
@@ -788,20 +780,13 @@ ggarrange(CB_A_plot, CB_B_plot,
           ncol = 2, nrow = 1, widths = c(1, 2))
 ```
 
-<font size="2">**Figure 5:** Total changes in net carbonate production and separated by the	functional groups contributing to either calcification or bioerosion. PF represents parrotfish. </font>
+<font size="2">**Figure 4:** Total changes in net carbonate production and separated by the	functional groups contributing to either calcification or bioerosion. PF represents parrotfish. </font>
 
 
 
 -----
 
-**Calcification Accretion Units (CAUs)** and **Bioerosion Monitoring Units (BMUs)** were used to investigate the balance	between	calcification	and erosion. CAUs	and	BMUs were collected and redeployed for the next sampling cycle. CAUs are processed	by the NCRMP Pacific Climate group	and	the data will be available within a year. BMUs will be dried and cleaned using	a	hydrogen peroxide	solution. These	samples	will be	weighed and scanned using a CT scanner and then compared to their pre-scans	to quantify	bioerosion. Data will be available in a year. Please reference previous datasets for more information. Finally, **landscape mosaics** are	used to quantify	the	benthic	community, and	to	monitor changes	in coral cover	over	time. Thousands	of underwater	
-images are digitally stitched together to create a highresolution digital archive	of the reef at the	time	of collection. Unfortunately, poor visibility and seastate conditions did not allow for the mosaics to properly build DO WE WANT TO TALK ABOUT THIS OR TAKE THE WHOLE SECTION OUT. 
-
-```{r BMUs, echo=FALSE, out.width = '50%', fig.cap="Figure 6: CAU and BMU pair before retreval after being deployed for 3 years. CAUs are 2 parallel PVC plates to quantify settled accretors. BMU is mounted coral skeleton installed at the base of the metal stake and has been encrusted.", fig.align='center'}
-
-knitr::include_graphics("Data/CAUBMU.jpg")
-
-```
+**Calcification Accretion Units (CAUs)** and **Bioerosion Monitoring Units (BMUs)** were used to investigate the balance between	calcification	and erosion. CAUs	and	BMUs were collected and redeployed for the next sampling cycle. CAUs are processed	by the NCRMP Pacific Climate group	and	the data will be available within a year. BMUs will be dried and cleaned using	a	hydrogen peroxide	solution. These	samples	will be	weighed and scanned using a CT scanner and then compared to their pre-scans	to quantify	bioerosion. Data will be available in a year. Please reference previous datasets for more information. 
 
 
 -----

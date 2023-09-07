@@ -254,8 +254,8 @@ light_count<-paste0("Light = ", nrow(light), " observatons")
 light_count
 ```
 
-**NCRMP Climate fixed sentinel site monitoring**
-At La Parguera - 5m site, located in SW Puerto Rico, short term instruments (54h) were deployed to  monitor daily fluctuations in: 
+* **NCRMP Climate fixed sentinel site monitoring:** At La Parguera - 5m site, located in SW Puerto Rico, short term instruments (54h) were deployed to  monitor daily fluctuations in:
+
   * **Current**: 205 observations
   * **pH**: 205 observations
   * **Light**: 202 observations
@@ -264,8 +264,8 @@ At La Parguera - 5m site, located in SW Puerto Rico, short term instruments (54h
 
 <br>
 
-**Habitat persistence** 
-Changes in bioerosion and accretion were monitored:
+* **Habitat persistence:** Changes in bioerosion and accretion were monitored:
+
   * **Carbonate budget surveys**: Benthic cover, sponge, urchin, and parrotfish surveys	completed at 6 transects
   * **Bioerosion**: 60 Bioerosion Monitoring Units (BMUs) collected, 60 redeployed 
   * **Calcification**: 30 Calcification Accretions Units (CAUs) collected, 30 redeployed

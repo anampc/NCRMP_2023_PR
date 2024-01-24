@@ -55,9 +55,9 @@ library(webshot)
 ```
 
 
-```{r front, echo=FALSE, out.width = '75%', fig.cap="Orbicella faveolata in St. Croix, USVI", fig.align='center'}
+```{r front, echo=FALSE, out.width = '75%', fig.cap="Diver surveying Puerto Rico reef", fig.align='center'}
 
-knitr::include_graphics("Data/STX_NCRMPClimate_2022.jpg")
+knitr::include_graphics("Data/PR_NCRMPClimate_2023.jpeg")
 
 ```
 
@@ -71,7 +71,7 @@ University of Miami Cooperative Institute of Marine and Atmospheric Studies (CIM
 <br>
 
 <h5 style="font size=6">
-N. Besemer, A. Palacio, A. Webb, G. Kolodziej, T.Gill, I. Enochs - XX 2023
+N. Besemer, A. Palacio, A. Webb, G. Kolodziej, T.Gill, I. Enochs - October 2023
 </h5>
 
 ```{r logos, echo=FALSE, fig.align='left', out.width='20%'}
@@ -93,6 +93,7 @@ The AOML Coral Program tracks the status and trends of coral reef ecosystems of 
 
 * The NCRMP Atlantic climate monitoring team recently traveled to Puerto Rico from May 17th to May 25th, 2023
 * 22 different sites were visited by three team members and collaborators completing a total of 51 dives. 
+
 --------
 
 ### Data collection summary
@@ -247,11 +248,11 @@ summary(light$DateTime)
 
 ```{r}
 pH_count<-paste0("pH = ", nrow(pH), " observatons")
-pH_count
+#pH_count
 current_count<-paste0("Current = ", nrow(current), " observatons")
-current_count
+#current_count
 light_count<-paste0("Light = ", nrow(light), " observatons")
-light_count
+#light_count
 ```
 
 **NCRMP Climate fixed sentinel site monitoring:** At La Parguera - 5m site, located in SW Puerto Rico, short term instruments (54h) were deployed to  monitor daily fluctuations in:
@@ -527,12 +528,16 @@ Figure2_1
 <font size="2"> **Figure 2:** Temperature conditions at six locations in Puerto Rico (Rincon, Arecibo, Jobos Bay, La Parguera, Culebra, Fajardo) representing a depth gradient (1m, 5m, 15m and 25m). Data were collected from June 2017 to July 2023 However, the COVID 19 pandemic caused a significant delay in collection of these instruments. Contractors were hired to complete the work in 2021 as travel was not allowed. Some instruments survived the entire deployment but others have not. </font>
  
 ```{r, echo = F, include=F}
-#Temp.Depth <- plyr::ddply (str_all, .(Depth), summarise,
-#                Tmin = min (Temperature, na.rm = F), 
-#                Tmax = max (Temperature, na.rm = F),
-#                Tmean = mean (Temperature, na.rm = F), 
-#                Tsd = sd (Temperature, na.rm = F))
-#kable(as.data.frame(Temp.Depth, format = "markdown"))
+Temp.Depth <- STR_all %>%
+  group_by(Depth) %>%
+  summarise(
+    MeanT = mean(Temperature, na.rm = T),
+    MinT = min(Temperature, na.rm = T),
+    MaxT = max(Temperature, na.rm = T),
+    Tsd = sd (Temperature, na.rm = F)
+  ) %>%
+  arrange(Depth)
+kable(as.data.frame(Temp.Depth, format = "markdown"))
 
 head(STR_all)
 
@@ -727,7 +732,7 @@ ggdraw(plot_grid(plot_grid(pH_Temp_Plot,
 
 ### Habitat persistance
 
-**Carbonate budget** assessments use transect-based surveys to quantify the abundance of carbonate producers (e.g., Corals and Crustose coralline algae), and carbonate bioeroders, (e.g., parrotfish and sea urchins). Abundances are multiplied by taxon-specific rates of carbonate alteration to determine if a reef is in a state of net accretion (habitat growth) or net loss (habitat loss; Fig. 4). At La Parguera, six transects were surveys in 2015, 2017 and 2023 to obtain carbonate budgets. These data show stable carbonate production over the monitoring timepoints. The transect results showed positive carbonate budgets in 2015, 2017 and 2023, which implies that this site supported reef accretion over the past eight years. ADD MORE HERE MAYBE CHAT DIP IN MACRO/MICRO BIOEROSION, INCREASE OF CCA, COOL OUTLIERS? 
+**Carbonate budget** assessments use transect-based surveys to quantify the abundance of carbonate producers (e.g., Corals and Crustose coralline algae), and carbonate bioeroders, (e.g., parrotfish and sea urchins). Abundances are multiplied by taxon-specific rates of carbonate alteration to determine if a reef is in a state of net accretion (habitat growth) or net loss (habitat loss; Fig. 4). At La Parguera, six transects were surveys in 2015, 2017 and 2023 to obtain carbonate budgets. These data show stable carbonate production over the monitoring timepoints. The transect results showed positive carbonate budgets in 2015, 2017 and 2023, which implies that this site supported reef accretion over the past eight years.
 
 ```{r, Carbonate_B_plot, echo=FALSE, warning=FALSE, fig.width = 7.5, fig.height = 3.5}
 
@@ -752,7 +757,7 @@ CB_A_plot<-ggplot(CBA.data, aes(Year, value, fill=Year))+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor=element_blank(),
         legend.position = "none")+
-  ylab(expression(paste( " [ kg m"^"-2"," yr"^"-1","]")))
+  ylab(expression(paste("Carbonate production (kg m"^"-2"," yr"^"-1",")")))
   
 
 
@@ -762,7 +767,7 @@ mdata[c(4)] <- lapply(mdata[c(4)], gsub, pattern = ".", replacement = " ", fixed
 mdata$variable <- factor(mdata$variable, 
                          levels = c("Coral production","CCA production",
                                     "PF bioerosion", "Urchin bioerosion", 
-                                    "Macro bioerosion","Micro bioerosion"))
+                                    "Macrobioerosion","Microbioerosion"))
 CB_B_plot<-ggplot(mdata,aes(Year,value,fill=Year))+
   geom_boxplot(alpha=0.5,width=0.5)+
   scale_fill_manual(values=c( "#666699","#336666", "#996666")) +
@@ -781,8 +786,6 @@ ggarrange(CB_A_plot, CB_B_plot,
 ```
 
 <font size="2">**Figure 4:** Total changes in net carbonate production and separated by the	functional groups contributing to either calcification or bioerosion. PF represents parrotfish. </font>
-
-
 
 -----
 
@@ -836,10 +839,11 @@ F1 <- ggdraw() + draw_image("Logos/CRCP.jpeg", scale = 0.5)
 #    geom_text(aes(0,0,label='')) +
 #    xlab(NULL)
 F2 <- ggdraw() + draw_image("Logos/OAP.png", scale = 1.1)
-F3 <- ggdraw() + draw_image("Logos/NPS.png", scale = 0.7)
+F3 <- ggdraw() + draw_image("Logos/UPRlogo.png", scale = 0.7)
+F4 <- ggdraw() + draw_image("Logos/UVI_logo_bw_300_3x.jpeg", scale = 0.5)
 
-funding<-plot_grid(F1, F2, F3, 
-                  nrow=1, rel_widths = c(2, 2, 4))
+funding<-plot_grid(F1, F2, F3, F4,
+                  nrow=1, rel_widths = c(2, 2, 2, 2))
 
 ```
 
@@ -854,7 +858,7 @@ funding
 
 ```{r team, echo=FALSE, out.width = '50%', fig.align='center', fig.cap="Puerto Rico,  2023 Field team" }
 
-knitr::include_graphics("Data/Fieldteam.jpg")
+knitr::include_graphics("Data/Fieldteam.png")
 ```
 
 **AOMLs NCRMP Atlantic and Caribbean Climate Team**: I. Enochs, N. Besemer, A. Palacio-Castro, G. Kolodziej, T. Gill, A.Boyd, M. Jankulak, K. Simmons, A. Webb, B. Chomitz
